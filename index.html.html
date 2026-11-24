@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Die drei ??? – Nacht in Angst | Adventskalender 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Oswald (für den markanten Drei-???-Look) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons für saubere Spotify-ähnliche Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tone.js für realistische Demo-Vorschau-Klänge (falls noch keine Audio-Links hinterlegt sind) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #0f172a;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-ddf {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        /* Dezenter festlicher Schneefall im Hintergrund */
+        .snowflake {
+            position: fixed;
+            top: -20px;
+            color: #cbd5e1;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite;
+            opacity: 0.55;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); }
+            100% { transform: translateY(105vh) rotate(360deg); }
+        }
+
+        /* Permanenter Schneefall speziell im 24.-Dezember-Banner */
+        @keyframes banner-snow {
+            0% { transform: translateY(-12px) translateX(0); opacity: 0; }
+            15% { opacity: 0.85; }
+            85% { opacity: 0.85; }
+            100% { transform: translateY(240px) translateX(12px); opacity: 0; }
+        }
+
+        .banner-snowflake {
+            position: absolute;
+            top: -12px;
+            color: #fef3c7;
+            user-select: none;
+            pointer-events: none;
+            animation: banner-snow linear infinite;
+        }
+
+        /* 10-Sekunden-Vollbild-Schneegestöber beim Öffnen am 24.12. */
+        .fullscreen-snowflake {
+            position: fixed;
+            top: -30px;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+            user-select: none;
+            pointer-events: none;
+            animation: fullscreen-snow-fall ease-in forwards;
+        }
+
+        .fullscreen-snowflake-ddf {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(9, 24, 44, 0.55);
+        }
+
+        @keyframes fullscreen-snow-fall {
+            0% {
+                transform: translateY(-30px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.95;
+            }
+            85% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(108vh) translateX(25px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Adventskerzen Animation (5 Sekunden beim Öffnen am 1., 2., 3. und 4. Advent) */
+        @keyframes candle-ignite {
+            0% { transform: scale(0); opacity: 0; }
+            18% { transform: scale(0); opacity: 0; }
+            28% { transform: scale(1.25); opacity: 1; }
+            36% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes flame-flicker {
+            0%, 100% { transform: scale(1) rotate(-2deg); }
+            25% { transform: scale(1.07, 0.95) rotate(2.5deg); }
+            50% { transform: scale(0.95, 1.08) rotate(-1.5deg); }
+            75% { transform: scale(1.05, 0.97) rotate(2deg); }
+        }
+
+        @keyframes candle-halo-pulse {
+            0% { opacity: 0; transform: scale(0.6); }
+            25% { opacity: 0; transform: scale(0.6); }
+            40% { opacity: 0.85; transform: scale(1.15); }
+            70% { opacity: 0.65; transform: scale(1); }
+            100% { opacity: 0.85; transform: scale(1.1); }
+        }
+
+        .candle-flame-wrapper {
+            transform-origin: 50% 90%;
+            animation: candle-ignite 5s ease-out forwards;
+        }
+
+        .candle-flame-inner {
+            transform-origin: 50% 90%;
+            animation: flame-flicker 0.85s ease-in-out infinite;
+        }
+
+        .candle-halo {
+            animation: candle-halo-pulse 2.2s ease-in-out infinite alternate;
+        }
+
+        /* Nikolaus huscht am 6. Dezember 5 Sekunden von rechts unten nach links oben */
+        @keyframes nikolaus-scurry {
+            0% {
+                transform: translate(112vw, 96vh) rotate(-10deg) scale(0.95);
+                opacity: 0;
+            }
+            8% {
+                opacity: 1;
+            }
+            20% {
+                transform: translate(78vw, 70vh) rotate(-14deg) scale(1);
+            }
+            38% {
+                transform: translate(50vw, 48vh) rotate(-8deg) scale(1);
+            }
+            56% {
+                transform: translate(24vw, 26vh) rotate(-14deg) scale(0.98);
+            }
+            76% {
+                transform: translate(-2vw, 4vh) rotate(-9deg) scale(0.95);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-28vw, -22vh) rotate(-12deg) scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        .nikolaus-runner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            will-change: transform;
+            animation: nikolaus-scurry 5s cubic-bezier(0.32, 0.04, 0.45, 0.96) forwards;
+        }
+
+        /* Minimalistische Animation für das Hochkant Behind-the-Scenes Video-Modal */
+        @keyframes bts-backdrop-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bts-card-in {
+            0% { opacity: 0; transform: translateY(18px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .bts-modal-backdrop {
+            animation: bts-backdrop-in 0.28s ease-out forwards;
+        }
+
+        .bts-modal-card {
+            animation: bts-card-in 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Seitliches Durchlaufen (Marquee) für abgeschnittene Kapiteltitel bei Hover */
+        @keyframes title-marquee-scroll {
+            0%, 15% {
+                transform: translateX(0);
+            }
+            85%, 100% {
+                transform: translateX(var(--marquee-offset, 0px));
+            }
+        }
+
+        .chapter-title-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            will-change: transform;
+            animation: title-marquee-scroll var(--marquee-duration, 4s) ease-in-out infinite alternate;
+        }
+
+        /* Equalizer Balken Animation für aktives Kapitel */
+        @keyframes eq-bounce {
+            0%, 100% { height: 4px; }
+            50% { height: 15px; }
+        }
+        .eq-1 { animation: eq-bounce 0.7s ease-in-out infinite; }
+        .eq-2 { animation: eq-bounce 0.55s ease-in-out infinite 0.15s; }
+        .eq-3 { animation: eq-bounce 0.8s ease-in-out infinite 0.3s; }
+
+        /* Range Slider Styling in Mitternachtsblau & Gold */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 4px;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background: #0f2942;
+            margin-top: -4px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+            transition: transform 0.1s;
+        }
+        input[type=range]:hover::-webkit-slider-thumb {
+            transform: scale(1.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-28 selection:bg-sky-100 selection:text-slate-900 relative overflow-x-hidden">
+
+    <!-- 5-Sekunden-Festtags-Overlay (Adventskerzen & Nikolaus – verschwindet beim Antippen daneben) -->
+    <div id="festive-event-overlay" class="fixed inset-0 z-[105] overflow-hidden transition-opacity duration-500 opacity-0 hidden cursor-pointer" aria-hidden="true"></div>
+
+    <!-- 10-Sekunden-Vollbild-Schnee-Overlay am 24.12. (über allen Flächen und Pop-ups, nicht wegklickbar) -->
+    <div id="fullscreen-snow-overlay" class="fixed inset-0 z-[100] pointer-events-none overflow-hidden transition-opacity duration-700 opacity-0" aria-hidden="true"></div>
+
+    <!-- Subtile Schneeflocken-Kulisse -->
+    <div id="snow-container" aria-hidden="true"></div>
+
+    <!-- Top Navigation / Test-Steuerung für dich als Ersteller -->
+    <header class="sticky top-0 z-30 bg-[#f8f7f4]/85 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="px-2.5 py-1 rounded-full bg-[#09182c] flex items-center justify-center font-ddf text-sm shadow-sm border border-amber-400/30">
+                    <span class="text-white">?</span><span class="text-red-500">?</span><span class="text-sky-400">?</span>
+                </div>
+                <span class="font-bold text-slate-900 tracking-tight text-sm sm:text-base">Nacht in Angst <span class="text-slate-400 font-normal hidden sm:inline">• Advents-Hörbuch</span></span>
+            </div>
+
+            <!-- Simulations-Leiste für dich zum Testen verschiedener Tage -->
+            <div class="flex items-center gap-2 bg-white/95 px-3 py-1.5 rounded-full border border-slate-200 shadow-2xs text-xs">
+                <i class="ph ph-detective text-sky-700 text-sm"></i>
+                <label for="sim-date-select" class="text-slate-600 font-medium hidden sm:inline">Vorschau-Datum:</label>
+                <select id="sim-date-select" class="bg-transparent font-semibold text-slate-800 focus:outline-none cursor-pointer">
+                    <option value="live">Echtes Datum (Live)</option>
+                    <option value="2026-11-29">29. Nov (1. Advent)</option>
+                    <option value="2026-11-30">30. Nov (Vor Start)</option>
+                    <option value="2026-12-01">01. Dez (Tag 1)</option>
+                    <option value="2026-12-06">06. Dez (Nikolaus &amp; 2. Advent)</option>
+                    <option value="2026-12-13">13. Dez (3. Advent)</option>
+                    <option value="2026-12-20">20. Dez (4. Advent)</option>
+                    <option value="2026-12-24">24. Dez (Alle + Album)</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hauptbereich -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-8 pt-6 sm:pt-10 relative z-10">
+
+        <!-- Spotify-Style Playlist Header: Fusion aus Weihnachten & Die drei ??? -->
+        <section class="bg-gradient-to-br from-[#f2f4f8] via-white to-[#faf6ee] rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm mb-8 relative overflow-hidden">
+            <!-- Dezenter goldener Weihnachts-Lichtschein & kühles Mondlicht -->
+            <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-amber-200/30 blur-3xl pointer-events-none"></div>
+            <div class="absolute left-1/3 -bottom-20 w-64 h-64 rounded-full bg-sky-200/20 blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col sm:flex-row items-center sm:items-end gap-6 sm:gap-8 relative z-10">
+                <!-- Individuelles Album Cover Artwork + Festlicher Akzent -->
+                <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-2xl bg-[#07162b] shadow-xl flex-shrink-0 flex flex-col justify-between p-4 relative overflow-hidden border border-amber-300/30 select-none">
+                    <!-- Feiner goldener Weihnachtsrahmen -->
+                    <div class="absolute inset-2 border border-amber-200/20 rounded-xl pointer-events-none z-20"></div>
+
+                    <!-- Oben: Die drei ??? Typografie -->
+                    <div class="relative z-10 flex items-start justify-between">
+                        <div>
+                            <div class="font-ddf text-2xl sm:text-[26px] leading-none tracking-tight">
+                                <span class="text-white">Die drei </span>
+                                <span class="text-white">?</span><span class="text-[#e11d48]">?</span><span class="text-[#38bdf8]">?</span>
+                            </div>
+                            <div class="font-ddf text-base sm:text-lg text-white leading-tight mt-0.5">
+                                Nacht in Angst
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mitte/Unten: Stilisierte Museumsturm-Silhouette vor Vollmond & Weihnachtssternen -->
+                    <div class="relative flex-1 mt-2 rounded-lg overflow-hidden bg-gradient-to-b from-[#3b1d5e] via-[#7c2d64] to-[#1e1b4b] border border-white/10">
+                        <!-- Vollmond -->
+                        <div class="absolute left-6 top-4 w-9 h-9 rounded-full bg-amber-100 shadow-[0_0_20px_rgba(254,243,199,0.9)]"></div>
+                        <!-- Kleine goldene Weihnachtssterne -->
+                        <i class="ph-fill ph-sparkle text-amber-200/80 text-[10px] absolute top-2 right-12"></i>
+                        <i class="ph-fill ph-sparkle text-amber-200/70 text-[8px] absolute top-6 left-2"></i>
+                        <!-- Museumsturm Silhouette (SVG) -->
+                        <svg viewBox="0 0 120 80" class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                            <!-- Zaun links -->
+                            <path d="M0 80 L0 52 M8 80 L8 50 M16 80 L16 48 M24 80 L24 46 M32 80 L32 45 M0 55 L36 48" stroke="#050b14" stroke-width="2" fill="none"/>
+                            <!-- Turm rechts -->
+                            <polygon points="52,80 62,10 86,10 98,80" fill="#050b14"/>
+                            <polygon points="48,80 54,42 102,42 108,80" fill="#050b14"/>
+                            <!-- Leuchtende Turmfenster -->
+                            <rect x="70" y="18" width="3" height="4" fill="#fde68a" opacity="0.7"/>
+                            <rect x="76" y="18" width="3" height="4" fill="#fde68a" opacity="0.7"/>
+                            <rect x="69" y="30" width="3" height="4" fill="#fde68a" opacity="0.6"/>
+                            <rect x="76" y="30" width="3" height="4" fill="#fde68a" opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Playlist Metadaten -->
+                <div class="flex-1 text-center sm:text-left">
+                    <div class="inline-flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-3">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100/90 text-amber-900 border border-amber-200/70">
+                            <i class="ph-fill ph-sparkle text-amber-600"></i> Audio Adventskalender
+                        </span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-2">
+                        Die drei ??? – Nacht in Angst
+                    </h1>
+                    <p class="text-xs sm:text-sm font-semibold text-emerald-800 mb-3 flex items-center justify-center sm:justify-start gap-1.5">
+                        <i class="ph-fill ph-microphone-stage text-base"></i> Persönlich für dich eingelesen • 24 Hörspielschnipsel bis Heiligabend
+                    </p>
+                    <p class="text-slate-600 text-sm sm:text-base max-w-2xl mb-5 leading-relaxed">
+                        Ein nächtlicher Einbruch im Museum, ein geheimnisvoller schwarzer Diamant und 24 Hörbuch-Schnipsel: Jeden Tag um 0:00 Uhr öffnet sich ein neues Türchen – zum Direktanhören :)
+                    </p>
+
+                    <!-- Status-Leiste & Haupt-Buttons -->
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                        <button id="play-latest-btn" class="inline-flex items-center gap-2.5 bg-[#09182c] hover:bg-slate-800 active:scale-95 text-white font-bold px-6 py-3 rounded-full shadow-md shadow-slate-900/15 transition-all cursor-pointer">
+                            <i class="ph-fill ph-play text-xl text-amber-300"></i>
+                            <span id="play-latest-label">Aktuelles Türchen hören</span>
+                        </button>
+
+                        <div class="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-600 bg-white/95 border border-slate-200 px-4 py-2.5 rounded-full">
+                            <span id="unlocked-counter" class="font-bold text-slate-900">0 / 24</span> Kapitel frei
+                            <span class="text-slate-300">•</span>
+                            <span id="countdown-badge" class="text-emerald-800 font-semibold">Bereit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Großer Gesamt-Album Banner (Erscheint prominent am 24. Dezember!) -->
+        <section id="full-album-banner" class="hidden mb-8">
+            <div class="bg-gradient-to-br from-[#062417] via-[#0b3824] to-[#081f16] border-2 border-amber-400/60 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden text-white">
+                <!-- Permanenter Schneefall nur in diesem Fenster am 24.12. -->
+                <div id="banner-snow-container" class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true"></div>
+
+                <!-- Dezente Drei-???-Farb-Lichtakzente (Weiß / Rot / Blau) -->
+                <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full bg-red-600/15 blur-3xl pointer-events-none"></div>
+                <div class="absolute right-24 -bottom-16 w-56 h-56 rounded-full bg-sky-500/15 blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+                    <!-- Die drei ??? Logo-Kachel im Weihnachts-Look -->
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-[#07162b] border-2 border-amber-400/60 flex flex-col items-center justify-center shadow-lg flex-shrink-0 p-2 relative">
+                        <i class="ph-fill ph-sparkle text-amber-300 text-xs absolute top-2 right-2"></i>
+                        <i class="ph-fill ph-snowflake text-sky-300/70 text-xs absolute bottom-2 left-2"></i>
+                        <span class="font-ddf text-[11px] uppercase tracking-widest text-slate-300 leading-none mb-1">Die drei</span>
+                        <div class="font-ddf text-3xl sm:text-4xl leading-none tracking-tight">
+                            <span class="text-white">?</span><span class="text-[#e11d48]">?</span><span class="text-[#38bdf8]">?</span>
+                        </div>
+                    </div>
+
+                    <!-- Persönliche Weihnachtsnachricht -->
+                    <div class="text-center md:text-left flex-1">
+                        <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-emerald-950/85 border border-amber-400/50 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-amber-300 mb-3 shadow-sm">
+                            <i class="ph-fill ph-sparkle text-sm"></i>
+                            <span>FROHE WEIHNACHTEN Spatz &lt;3</span>
+                        </div>
+                        <h3 class="text-lg sm:text-2xl font-extrabold text-white mt-1 leading-snug">
+                            Fall bald gelöst! Heute gibt’s den letzten Schnipsel :) Das komplette Hörbuch, also alle 15 gelesenen Kapitel, sind auf deinem Handy in der Musik App ;)
+                        </h3>
+                        <p class="text-amber-200 font-bold text-base sm:text-lg mt-3">
+                            Es hat ganz doll Spaß gemacht :)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter & Ansicht-Leiste -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4 px-1">
+            <div class="flex items-center gap-2">
+                <h2 class="text-lg font-bold text-slate-900">Ermittlungsakte • 24 Türchen</h2>
+                <span id="history-badge" class="hidden text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-200/70 px-2.5 py-0.5 rounded-full">Vollständige Historie</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button id="filter-all-btn" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#09182c] text-white transition cursor-pointer">
+                    Alle (24)
+                </button>
+                <button id="filter-unlocked-btn" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition cursor-pointer">
+                    Nur freigeschaltete
+                </button>
+            </div>
+        </div>
+
+        <!-- Tracklist Tabelle (Spotify-Style) -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
+            <!-- Tabellenkopf (Desktop) -->
+            <div class="hidden sm:grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-100 bg-slate-50/70 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <div class="col-span-1 text-center">#</div>
+                <div class="col-span-7">Kapitel &amp; Titel</div>
+                <div class="col-span-3">Freischaltung</div>
+                <div class="col-span-1 text-right">Dauer</div>
+            </div>
+
+            <!-- Liste der 24 Kapitel -->
+            <div id="tracks-container" class="divide-y divide-slate-100">
+                <!-- Wird per JavaScript befüllt -->
+            </div>
+        </div>
+
+        <!-- Behind the Scenes Bereich (Erscheint ganz unten am 24. Dezember!) -->
+        <section id="bts-section" class="hidden mt-8">
+            <div class="flex justify-center">
+                <button id="open-bts-btn" class="group inline-flex items-center gap-3.5 bg-white hover:bg-[#09182c] text-slate-900 hover:text-white border border-slate-200 hover:border-amber-400/50 rounded-2xl px-6 py-4 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer active:scale-95">
+                    <!-- Kleines Symbol für Behind the Scenes mit Weihnachtsmann -->
+                    <div class="w-11 h-11 rounded-xl bg-[#09182c] group-hover:bg-white/10 border border-amber-400/40 flex items-center justify-center flex-shrink-0 relative shadow-xs transition">
+                        <svg viewBox="0 0 48 48" class="w-8 h-8 overflow-visible" aria-hidden="true">
+                            <!-- Filmklappe (Behind the Scenes) -->
+                            <rect x="8" y="21" width="32" height="21" rx="3" fill="#1e293b" stroke="#fbbf24" stroke-width="1.8"/>
+                            <!-- Gestreifter Klappen-Balken oben -->
+                            <path d="M8 21 L40 21 L38 15 L10 15 Z" fill="#f8fafc"/>
+                            <path d="M14 15 L17 21 M22 15 L25 21 M30 15 L33 21" stroke="#09182c" stroke-width="2.4"/>
+                            <!-- Kleiner Weihnachtsmann schaut oben über die Filmklappe -->
+                            <circle cx="24" cy="12" r="5.5" fill="#fed7aa"/>
+                            <!-- Weißer Bart -->
+                            <path d="M18.5 13 C18.5 18.5, 29.5 18.5, 29.5 13 Z" fill="#ffffff"/>
+                            <!-- Augen -->
+                            <circle cx="22.3" cy="11.2" r="0.9" fill="#0f172a"/>
+                            <circle cx="25.7" cy="11.2" r="0.9" fill="#0f172a"/>
+                            <!-- Weihnachtsmütze -->
+                            <path d="M18 9 C20 2, 29 2, 33 7.5 C29 8.5, 23 9, 18 9 Z" fill="#dc2626"/>
+                            <rect x="17.5" y="7.8" width="13" height="2.6" rx="1.3" fill="#ffffff"/>
+                            <circle cx="33.5" cy="7.8" r="2.2" fill="#ffffff"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-extrabold text-sm sm:text-base tracking-tight flex items-center gap-1.5">
+                            <span>Behind the Scenes</span>
+                            <i class="ph-fill ph-play-circle text-amber-500 group-hover:text-amber-300 text-lg transition"></i>
+                        </div>
+                        <div class="text-xs text-slate-500 group-hover:text-slate-300 transition">
+                            Kleiner Blick hinter die Kulissen der Aufnahmen
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Hinweis für dich als Ersteller (ausblendbar) -->
+        <div class="mt-8 bg-white/90 border border-slate-200 rounded-2xl p-4 text-xs text-slate-600 flex items-start gap-3">
+            <i class="ph-fill ph-info text-sky-700 text-lg mt-0.5 flex-shrink-0"></i>
+            <div>
+                <p class="font-semibold text-slate-800 mb-1">So fügst du deine eigenen 24 Aufnahmen &amp; das Video ein:</p>
+                <p>Öffne den Code-Editor und trage im Bereich <code class="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 font-mono text-slate-800">AUDIO_CHAPTERS</code> deine Audio-Links (.m4a / .mp3) sowie bei <code class="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 font-mono text-slate-800">BEHIND_THE_SCENES_VIDEO_URL</code> den Link zu deinem Hochkant-Video ein. Türchen 01 ist bereits mit deinem GitHub-Link verknüpft!</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Hochkant Video-Modal für Behind the Scenes -->
+    <div id="bts-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="bts-modal-title">
+        <div id="bts-modal-card" class="relative w-full max-w-[340px] sm:max-w-[370px] bg-[#09182c] border border-amber-400/40 rounded-3xl p-3 shadow-2xl text-white">
+            <!-- Kopfzeile im Modal -->
+            <div class="flex items-center justify-between px-2 pb-2.5">
+                <div class="flex items-center gap-2">
+                    <i class="ph-fill ph-film-slate text-amber-300 text-base"></i>
+                    <span id="bts-modal-title" class="text-xs font-extrabold uppercase tracking-wider text-amber-200">Behind the Scenes</span>
+                </div>
+                <button id="close-bts-btn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white flex items-center justify-center transition cursor-pointer" title="Schließen">
+                    <i class="ph-bold ph-x text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Hochkant-Container (9:16) -->
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden bg-slate-950 border border-white/10 flex items-center justify-center">
+                <video id="bts-video" class="w-full h-full object-cover hidden" controls playsinline></video>
+
+                <!-- Platzhalter-Ansicht, solange noch kein Video-Link hinterlegt ist -->
+                <div id="bts-placeholder" class="p-6 text-center flex flex-col items-center justify-center h-full bg-gradient-to-b from-[#0b251a] via-[#09182c] to-[#06101e]">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-400/15 border border-amber-300/30 flex items-center justify-center mb-4">
+                        <i class="ph-duotone ph-video-camera text-amber-300 text-3xl"></i>
+                    </div>
+                    <p class="font-bold text-sm text-white mb-1.5">Behind the Scenes (Hochkant)</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Trage im Code oben bei <code class="bg-white/10 px-1.5 py-0.5 rounded font-mono text-amber-200">BEHIND_THE_SCENES_VIDEO_URL</code> den Link zu deinem Hochkant-Video (MP4) ein, dann läuft es direkt hier :)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Persistenter Spotify-Style Audio Player (Unten fixiert) -->
+    <footer id="player-bar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] px-4 sm:px-8 py-3 transition-transform duration-300">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
+            
+            <!-- Links: Aktueller Track Info -->
+            <div class="flex items-center gap-3 w-full sm:w-1/3 min-w-0">
+                <div id="player-cover" class="w-11 h-11 rounded-xl bg-[#09182c] text-amber-300 border border-amber-400/30 flex items-center justify-center font-extrabold text-sm flex-shrink-0 shadow-sm">
+                    01
+                </div>
+                <div class="min-w-0 flex-1">
+                    <div id="player-title" class="font-bold text-sm text-slate-900 truncate">Wähle ein freies Türchen</div>
+                    <div id="player-subtitle" class="text-xs text-slate-500 truncate">Die drei ??? – Nacht in Angst</div>
+                </div>
+            </div>
+
+            <!-- Mitte: Steuerung & Fortschrittsbalken -->
+            <div class="flex flex-col items-center w-full sm:w-2/5">
+                <div class="flex items-center gap-5 mb-1.5">
+                    <button id="prev-btn" class="text-slate-500 hover:text-slate-900 disabled:opacity-30 transition cursor-pointer" title="Vorheriges Kapitel">
+                        <i class="ph-fill ph-skip-back text-xl"></i>
+                    </button>
+                    <button id="play-pause-btn" class="w-10 h-10 rounded-full bg-[#09182c] hover:bg-slate-800 text-white flex items-center justify-center shadow-sm active:scale-95 transition cursor-pointer" title="Abspielen / Pause">
+                        <i id="play-pause-icon" class="ph-fill ph-play text-lg ml-0.5 text-amber-300"></i>
+                    </button>
+                    <button id="next-btn" class="text-slate-500 hover:text-slate-900 disabled:opacity-30 transition cursor-pointer" title="Nächstes Kapitel">
+                        <i class="ph-fill ph-skip-forward text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2.5 w-full">
+                    <span id="current-time" class="text-[11px] font-medium text-slate-400 w-9 text-right tabular-nums">0:00</span>
+                    <input id="progress-slider" type="range" min="0" max="100" value="0" class="flex-1 cursor-pointer">
+                    <span id="total-duration" class="text-[11px] font-medium text-slate-400 w-9 tabular-nums">0:00</span>
+                </div>
+            </div>
+
+            <!-- Rechts: Lautstärke (Desktop) -->
+            <div class="hidden sm:flex items-center justify-end gap-2 w-1/4">
+                <i id="volume-icon" class="ph ph-speaker-high text-slate-500 text-lg"></i>
+                <input id="volume-slider" type="range" min="0" max="1" step="0.05" value="0.85" class="w-24 cursor-pointer">
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Benachrichtigung (ersetzt alert()) -->
+    <div id="toast" class="fixed top-20 right-4 z-50 transform translate-x-full opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-[#09182c] text-slate-50 border border-amber-400/30 text-sm font-medium px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 max-w-sm">
+            <i id="toast-icon" class="ph-fill ph-check-circle text-amber-300 text-lg"></i>
+            <span id="toast-message">Nachricht</span>
+        </div>
+    </div>
+
+    <!-- Pop-up beim Gedrückthalten (Touch & Linksklick) für vollständigen Kapiteltitel -->
+    <div id="title-hold-popup" class="fixed inset-x-4 top-20 sm:top-24 z-[120] flex justify-center pointer-events-none opacity-0 scale-95 transition-all duration-150" aria-hidden="true">
+        <div class="bg-[#09182c]/95 backdrop-blur-md text-white border border-amber-400/50 rounded-2xl px-5 py-3.5 shadow-2xl max-w-md w-full sm:w-auto text-center">
+            <div class="text-[10px] font-extrabold uppercase tracking-widest text-amber-300 mb-1">Vollständiger Titel</div>
+            <div id="title-hold-popup-text" class="text-sm sm:text-base font-bold leading-snug text-white"></div>
+        </div>
+    </div>
+
+    <!-- Echtes HTML5 Audio Element (optimiert für Desktop & Smartphone Streaming inkl. iOS/Android) -->
+    <audio id="html-audio" preload="none" playsinline webkit-playsinline></audio>
+
+    <script>
+        /**
+         * ============================================================================
+         * HIER DEINE 24 "DIE DREI ??? – NACHT IN ANGST" KAPITEL & LINKS EINTRAGEN:
+         * ============================================================================
+         * - title: Titel des Kapitels / Abschnitts
+         * - duration: Angezeigte Länge (wird bei echten Audio-Dateien automatisch aktualisiert!)
+         * - audioUrl: Direktlink zur Audio-Datei (.m4a / .mp3, z.B. GitHub Releases)
+         *             Wenn leer (""), wird ein angenehmer Demo-Klang abgespielt.
+         */
+        const BEHIND_THE_SCENES_VIDEO_URL = ""; // Hier den Link zu deinem Hochkant-Video (z. B. .mp4) eintragen!
+
+        const AUDIO_CHAPTERS = [
+            { day: 1,  title: "Türchen 01: Intro & Kap. 1 | 19:00 Uhr - Der gewagte Plan", duration: "03:45", audioUrl: "https://raw.githubusercontent.com/pauwie33-dot/adventskalender-2026/main/Die%20Drei_Nacht%20in%20Angst%20-%20Kap_1_gering.m4a" },
+            { day: 2,  title: "Türchen 02: Kap. 2 Teil 1 | 19:46 Uhr - Eine Premiere der anderen Art", duration: "04:12", audioUrl: "" },
+            { day: 3,  title: "Türchen 03: Kap. 2 Teil 2", duration: "03:58", audioUrl: "" },
+            { day: 4,  title: "Türchen 04: Kap. 3 Teil 1 | 20:28 Uhr - Stromausfall", duration: "04:30", audioUrl: "" },
+            { day: 5,  title: "Türchen 05: Kap. 3 Teil 2", duration: "05:05", audioUrl: "" },
+            { day: 6,  title: "Türchen 06: Kap. 4 | 20:46 Uhr - Ab durch die Hecke", duration: "04:48", audioUrl: "" },
+            { day: 7,  title: "Türchen 07: Kap. 5 Teil 1 | 21:01 Uhr - Erwischt!", duration: "03:50", audioUrl: "" },
+            { day: 8,  title: "Türchen 08: Kap. 5 Teil 2", duration: "04:15", audioUrl: "" },
+            { day: 9,  title: "Türchen 09: Kap. 6 Teil 1 | 21:14 Uhr - Fluchtversuche", duration: "05:20", audioUrl: "" },
+            { day: 10, title: "Türchen 10: Kap. 6 Teil 2", duration: "04:02", audioUrl: "" },
+            { day: 11, title: "Türchen 11: Kap. 7 Teil 1 | 21:20 Uhr - Lauschangriff", duration: "03:40", audioUrl: "" },
+            { day: 12, title: "Türchen 12: Kap. 7 Teil 2", duration: "04:55", audioUrl: "" },
+            { day: 13, title: "Türchen 13: Kap. 8 | 21:44 Uhr - Geständnisse", duration: "04:18", audioUrl: "" },
+            { day: 14, title: "Türchen 14: Kap. 9 Teil 1 | 22:03 Uhr - Unter Zwang", duration: "05:10", audioUrl: "" },
+            { day: 15, title: "Türchen 15: Kap. 9 Teil 2", duration: "04:22", audioUrl: "" },
+            { day: 16, title: "Türchen 16: Kap. 10 | 22:20 Uhr - Reingelegt!", duration: "03:55", audioUrl: "" },
+            { day: 17, title: "Türchen 17: Kap. 11 Teil 1 | 22:36 Uhr - Geheimnis des Nachtwächters", duration: "04:44", audioUrl: "" },
+            { day: 18, title: "Türchen 18: Kap. 11 Teil 2", duration: "04:08", audioUrl: "" },
+            { day: 19, title: "Türchen 19: Kap. 12 | 22:49 Uhr - Kreuzverhör", duration: "03:49", audioUrl: "" },
+            { day: 20, title: "Türchen 20: Kap. 13 Teil 1 | 23:07 Uhr - Nichts als die Wahrheit", duration: "05:15", audioUrl: "" },
+            { day: 21, title: "Türchen 21: Kap. 13 Teil 2", duration: "04:36", audioUrl: "" },
+            { day: 22, title: "Türchen 22: Kap. 14 Teil 1 | 23:29 Uhr - Nie wieder Fahrstuhl", duration: "04:50", audioUrl: "" },
+            { day: 23, title: "Türchen 23: Kap. 14 Teil 2", duration: "04:14", audioUrl: "" },
+            { day: 24, title: "Türchen 24: Kap. 15 | 0:00 Uhr - Enthüllung um Mitternacht", duration: "06:30", audioUrl: "" }
+        ];
+
+        // Kalenderjahr für die Freischaltung
+        const CALENDAR_YEAR = 2026;
+        const CALENDAR_MONTH = 11; // 11 = Dezember in JavaScript (0-basiert: 0=Jan, 11=Dez)
+
+        // App-Status
+        let simulatedDate = null; // null = echtes Systemdatum
+        let currentTrackIndex = null;
+        let isPlaying = false;
+        let filterMode = 'all'; // 'all' oder 'unlocked'
+        let demoTimer = null;
+        let demoSecondsElapsed = 0;
+        let demoSynth = null;
+        let audioRetryStage = 0; // 0 = Direkt/CDN-URL, 1 = Fallback-URL, 2 = Blob-Stream über fetch()
+        let activeBlobUrl = null;
+        let fullscreenSnowPlayedForDec24 = false;
+        let fullscreenSnowTimeout = null;
+        let lastTriggeredSpecialDateKey = null;
+        let festiveEventTimeout = null;
+
+        // DOM Elemente
+        const tracksContainer = document.getElementById('tracks-container');
+        const simDateSelect = document.getElementById('sim-date-select');
+        const unlockedCounter = document.getElementById('unlocked-counter');
+        const countdownBadge = document.getElementById('countdown-badge');
+        const fullAlbumBanner = document.getElementById('full-album-banner');
+        const btsSection = document.getElementById('bts-section');
+        const historyBadge = document.getElementById('history-badge');
+        const playLatestBtn = document.getElementById('play-latest-btn');
+        const playLatestLabel = document.getElementById('play-latest-label');
+        const filterAllBtn = document.getElementById('filter-all-btn');
+        const filterUnlockedBtn = document.getElementById('filter-unlocked-btn');
+
+        // Player Elemente
+        const htmlAudio = document.getElementById('html-audio');
+        const playerCover = document.getElementById('player-cover');
+        const playerTitle = document.getElementById('player-title');
+        const playerSubtitle = document.getElementById('player-subtitle');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const playPauseIcon = document.getElementById('play-pause-icon');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressSlider = document.getElementById('progress-slider');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        // Aktuelles Referenzdatum abrufen (echt oder simuliert)
+        function getReferenceDate() {
+            if (simulatedDate) {
+                return new Date(simulatedDate + "T00:01:00");
+            }
+            return new Date();
+        }
+
+        // Prüft, ob ein bestimmtes Türchen (1-24) freigeschaltet ist (ab 0:00 Uhr des jeweiligen Tages)
+        function isDayUnlocked(day) {
+            const now = getReferenceDate();
+            const unlockDate = new Date(CALENDAR_YEAR, CALENDAR_MONTH, day, 0, 0, 0);
+            return now >= unlockDate;
+        }
+
+        // Formatierung für Sekunden -> MM:SS
+        function formatTime(sec, padMinutes = false) {
+            if (isNaN(sec) || sec < 0) return padMinutes ? "00:00" : "0:00";
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            const mStr = padMinutes && m < 10 ? `0${m}` : `${m}`;
+            return `${mStr}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        // Wandelt GitHub-URLs in Apple-Safari-kompatible Streaming-Quellen um
+        function buildSafariStreamCandidates(rawUrl) {
+            if (!rawUrl) return [];
+            const trimmed = rawUrl.trim();
+            const candidates = [];
+
+            // Stufe 1: Direkte raw.githubusercontent.com URL
+            const ghRawMatch = trimmed.match(/^https?:\/\/(?:raw\.githubusercontent\.com|github\.com)\/([^\/]+)\/([^\/]+)\/(?:raw\/refs\/heads\/|raw\/|blob\/)?([^\/]+)\/(.+)$/);
+            if (ghRawMatch) {
+                const [, user, repo, branch, filePath] = ghRawMatch;
+                candidates.push(`https://raw.githubusercontent.com/${user}/${repo}/${branch}/${filePath}`);
+                candidates.push(`https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${filePath}`);
+            }
+
+            // Stufe 2: Original-URL
+            candidates.push(trimmed);
+
+            return [...new Set(candidates)];
+        }
+
+        // Bestimmt den exakten Apple-kompatiblen MIME-Type anhand der Dateiendung
+        function getAppleAudioMimeType(url) {
+            const cleanUrl = url.split('?')[0].toLowerCase();
+            if (cleanUrl.endsWith('.mp3')) return 'audio/mpeg';
+            if (cleanUrl.endsWith('.wav')) return 'audio/wav';
+            if (cleanUrl.endsWith('.ogg')) return 'audio/ogg';
+            return 'audio/mp4'; // Standard für .m4a (AAC) auf iOS & macOS Safari
+        }
+
+        // Lädt die Audiodatei als typisierten Apple-Audio-Blob (behebt application/octet-stream Sperre in Safari)
+        async function loadAudioAsBlobAndPlay(candidates, fallbackUrl) {
+            if (activeBlobUrl) {
+                URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = null;
+            }
+            const mimeType = getAppleAudioMimeType(fallbackUrl);
+
+            for (const url of candidates) {
+                try {
+                    const response = await fetch(url, { mode: 'cors' });
+                    if (!response.ok) continue;
+                    const buffer = await response.arrayBuffer();
+                    const typedBlob = new Blob([buffer], { type: mimeType });
+                    activeBlobUrl = URL.createObjectURL(typedBlob);
+                    htmlAudio.src = activeBlobUrl;
+                    htmlAudio.load();
+                    await htmlAudio.play();
+                    playerSubtitle.textContent = 'Die drei ??? • Selbst gelesen';
+                    return true;
+                } catch (e) {
+                    console.warn("Safari Blob-Stream Versuch fehlgeschlagen für:", url, e);
+                }
+            }
+            return false;
+        }
+
+        // Ermittelt automatisch die echte Laufzeit von hinterlegten Audio-Dateien
+        function preloadRealDurations() {
+            if (window.innerWidth < 640) return;
+            AUDIO_CHAPTERS.forEach((chapter) => {
+                if (chapter.audioUrl && chapter.audioUrl.trim() !== "") {
+                    const candidates = buildSafariStreamCandidates(chapter.audioUrl);
+                    const tempAudio = new Audio();
+                    tempAudio.preload = "metadata";
+                    tempAudio.src = candidates[0] || chapter.audioUrl;
+                    tempAudio.addEventListener("loadedmetadata", () => {
+                        if (tempAudio.duration && !isNaN(tempAudio.duration) && isFinite(tempAudio.duration)) {
+                            chapter.duration = formatTime(tempAudio.duration, true);
+                            renderCalendar();
+                        }
+                    });
+                }
+            });
+        }
+
+        // Toast-Benachrichtigung anzeigen
+        let toastTimeout;
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.textContent = message;
+            toastIcon.className = isError 
+                ? "ph-fill ph-lock-key text-amber-300 text-lg" 
+                : "ph-fill ph-sparkle text-amber-300 text-lg";
+
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+            }, 3500);
+        }
+
+        // Dezente Schneeflocken im Hintergrund erzeugen
+        function initSnowflakes() {
+            const container = document.getElementById('snow-container');
+            if (!container) return;
+            const symbols = ['❄', '❅', '•'];
+            const count = 18; // Bewusst dezent gehalten
+
+            for (let i = 0; i < count; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.textContent = symbols[i % symbols.length];
+                flake.style.left = `${Math.random() * 100}vw`;
+                flake.style.fontSize = `${Math.random() * 10 + 10}px`;
+                flake.style.animationDuration = `${Math.random() * 12 + 14}s`;
+                flake.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(flake);
+            }
+        }
+
+        // Permanenter Schneefall speziell im großen Pop-up am 24.12.
+        function initBannerSnowflakes() {
+            const container = document.getElementById('banner-snow-container');
+            if (!container || container.children.length > 0) return;
+            const symbols = ['❄', '❅', '✦', '•'];
+            const count = 26;
+
+            for (let i = 0; i < count; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'banner-snowflake';
+                flake.textContent = symbols[i % symbols.length];
+                flake.style.left = `${Math.random() * 100}%`;
+                flake.style.fontSize = `${Math.random() * 9 + 9}px`;
+                flake.style.animationDuration = `${Math.random() * 4 + 4.5}s`;
+                flake.style.animationDelay = `${Math.random() * 4}s`;
+                container.appendChild(flake);
+            }
+        }
+
+        // Pop-up beim Gedrückthalten für vollständigen Kapiteltitel anzeigen / ausblenden
+        function showTitleHoldPopup(fullTitle) {
+            const popup = document.getElementById('title-hold-popup');
+            const popupText = document.getElementById('title-hold-popup-text');
+            if (!popup || !popupText) return;
+            popupText.textContent = fullTitle;
+            popup.classList.remove('opacity-0', 'scale-95');
+            popup.classList.add('opacity-100', 'scale-100');
+        }
+
+        function hideTitleHoldPopup() {
+            const popup = document.getElementById('title-hold-popup');
+            if (!popup) return;
+            popup.classList.remove('opacity-100', 'scale-100');
+            popup.classList.add('opacity-0', 'scale-95');
+        }
+
+        // 10-Sekunden-Vollbild-Schneeanimation beim Öffnen am 24.12. (verstärkt + weiße, rote und blaue ???)
+        function triggerFullscreenSnow24() {
+            const overlay = document.getElementById('fullscreen-snow-overlay');
+            if (!overlay) return;
+
+            clearTimeout(fullscreenSnowTimeout);
+            overlay.innerHTML = '';
+            overlay.classList.remove('opacity-0');
+            overlay.classList.add('opacity-100');
+
+            const snowSymbols = ['❄', '❅', '❆', '✦'];
+            const ddfColors = ['#ffffff', '#e11d48', '#38bdf8']; // Weiß, Rot, Blau
+            const count = 135;
+
+            for (let i = 0; i < count; i++) {
+                const flake = document.createElement('div');
+                const isQuestionMark = (i % 5 === 0);
+
+                if (isQuestionMark) {
+                    flake.className = 'fullscreen-snowflake fullscreen-snowflake-ddf';
+                    flake.textContent = '?';
+                    flake.style.color = ddfColors[Math.floor(i / 5) % ddfColors.length];
+                    flake.style.fontSize = `${Math.random() * 14 + 18}px`;
+                } else {
+                    flake.className = 'fullscreen-snowflake';
+                    flake.textContent = snowSymbols[i % snowSymbols.length];
+                    flake.style.fontSize = `${Math.random() * 16 + 14}px`;
+                }
+
+                flake.style.left = `${Math.random() * 100}vw`;
+                flake.style.animationDuration = `${Math.random() * 3.2 + 4.2}s`;
+                flake.style.animationDelay = `${Math.random() * 3.0}s`;
+                overlay.appendChild(flake);
+            }
+
+            fullscreenSnowTimeout = setTimeout(() => {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.innerHTML = '';
+                }, 750);
+            }, 10000);
+        }
+
+        // Berechnet das Datum des 1. Advents für ein beliebiges Jahr
+        function getFirstAdventDate(year) {
+            const dec25 = new Date(year, 11, 25);
+            const dayOfWeek = dec25.getDay();
+            const daysBackToFourthAdvent = dayOfWeek === 0 ? 7 : dayOfWeek;
+            const fourthAdvent = new Date(year, 11, 25 - daysBackToFourthAdvent);
+            const firstAdvent = new Date(fourthAdvent);
+            firstAdvent.setDate(fourthAdvent.getDate() - 21);
+            return firstAdvent;
+        }
+
+        // Erzeugt eine dunkelrote Wachskerze als SVG mit Anzünd-Animation
+        function createRedCandleSvg(delayIndex = 0) {
+            const igniteDelay = (delayIndex * 0.45).toFixed(2);
+            return `
+                <div class="relative flex flex-col items-center select-none">
+                    <div class="candle-halo absolute -top-6 w-28 h-28 rounded-full bg-amber-300/45 blur-2xl pointer-events-none" style="animation-delay: ${igniteDelay}s;"></div>
+                    <svg viewBox="0 0 90 195" class="w-20 h-44 sm:w-24 sm:h-52 drop-shadow-[0_12px_22px_rgba(0,0,0,0.45)] overflow-visible">
+                        <defs>
+                            <linearGradient id="redWaxGrad-${delayIndex}" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#5c0a14"/>
+                                <stop offset="32%" stop-color="#991b1b"/>
+                                <stop offset="68%" stop-color="#7f1d1d"/>
+                                <stop offset="100%" stop-color="#450a0a"/>
+                            </linearGradient>
+                            <radialGradient id="flameOuterGrad-${delayIndex}" cx="50%" cy="65%" r="55%">
+                                <stop offset="0%" stop-color="#fef08a"/>
+                                <stop offset="55%" stop-color="#f97316"/>
+                                <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <ellipse cx="45" cy="182" rx="34" ry="7" fill="#b45309"/>
+                        <ellipse cx="45" cy="180" rx="31" ry="5.5" fill="#fbbf24"/>
+                        <rect x="24" y="64" width="42" height="116" rx="5" fill="url(#redWaxGrad-${delayIndex})"/>
+                        <path d="M24 68 Q27 84 30 76 Q33 92 36 74 Q42 86 46 72 Q53 90 57 75 Q62 85 66 68 Z" fill="#b91c1c"/>
+                        <ellipse cx="45" cy="64" rx="21" ry="4.5" fill="#dc2626"/>
+                        <ellipse cx="45" cy="64" rx="16" ry="3" fill="#450a0a"/>
+                        <path d="M45 64 Q44 56 46 50" stroke="#1e293b" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                        <g class="candle-flame-wrapper" style="animation-delay: ${igniteDelay}s;">
+                            <g class="candle-flame-inner">
+                                <ellipse cx="45" cy="34" rx="14" ry="22" fill="url(#flameOuterGrad-${delayIndex})"/>
+                                <path d="M45 13 C53 27, 55 41, 45 49 C35 41, 37 27, 45 13 Z" fill="#f59e0b"/>
+                                <path d="M45 20 C50 30, 51 40, 45 47 C39 40, 40 30, 45 20 Z" fill="#fef9c3"/>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            `;
+        }
+
+        // Nikolaus mit großem Geschenkesack als SVG
+        function createNikolausRunnerHtml() {
+            return `
+                <div class="nikolaus-runner festive-animation-target flex items-center gap-1 select-none drop-shadow-[0_14px_24px_rgba(15,23,42,0.45)] cursor-default">
+                    <svg viewBox="0 0 180 150" class="w-40 h-32 sm:w-52 sm:h-44 overflow-visible">
+                        <path d="M98 52 C125 32, 165 48, 168 86 C170 116, 142 132, 112 124 C92 118, 88 84, 98 52 Z" fill="#92400e" stroke="#451a03" stroke-width="2.5"/>
+                        <path d="M102 58 C122 44, 152 56, 154 86" stroke="#b45309" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <rect x="122" y="34" width="18" height="16" rx="2" transform="rotate(14 122 34)" fill="#15803d" stroke="#fef08a" stroke-width="1.5"/>
+                        <rect x="138" y="40" width="15" height="14" rx="2" transform="rotate(26 138 40)" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+                        <path d="M92 62 Q102 56 108 66" stroke="#fbbf24" stroke-width="4" stroke-linecap="round" fill="none"/>
+                        <ellipse cx="52" cy="134" rx="13" ry="6" transform="rotate(-18 52 134)" fill="#0f172a"/>
+                        <ellipse cx="86" cy="128" rx="13" ry="6" transform="rotate(24 86 128)" fill="#0f172a"/>
+                        <path d="M48 64 C44 92, 42 116, 46 126 L94 124 C96 106, 92 82, 84 62 Z" fill="#b91c1c"/>
+                        <rect x="44" y="119" width="52" height="9" rx="4.5" fill="#f8fafc"/>
+                        <rect x="64" y="66" width="7" height="54" rx="3" fill="#f8fafc"/>
+                        <rect x="45" y="92" width="48" height="8" rx="2" fill="#0f172a"/>
+                        <rect x="62" y="90" width="12" height="12" rx="2" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+                        <path d="M74 68 Q90 58 98 62" stroke="#991b1b" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <circle cx="98" cy="62" r="5.5" fill="#f8fafc"/>
+                        <circle cx="64" cy="48" r="14" fill="#fed7aa"/>
+                        <circle cx="57" cy="46" r="2" fill="#0f172a"/>
+                        <circle cx="53" cy="50" r="2.8" fill="#f87171"/>
+                        <path d="M50 51 C46 66, 56 78, 68 74 C78 70, 78 56, 72 50 Z" fill="#ffffff"/>
+                        <path d="M49 41 C54 22, 76 22, 88 36 C78 39, 62 41, 49 41 Z" fill="#b91c1c"/>
+                        <rect x="47" y="38" width="32" height="7" rx="3.5" fill="#ffffff"/>
+                        <circle cx="90" cy="37" r="5.5" fill="#ffffff"/>
+                    </svg>
+                </div>
+            `;
+        }
+
+        // Rendert die gesamte Trackliste und aktualisiert Status-Banner
+        function renderCalendar() {
+            const refDate = getReferenceDate();
+            checkAndTriggerFestiveAnimations(refDate);
+
+            const unlockedChapters = AUDIO_CHAPTERS.filter(ch => isDayUnlocked(ch.day));
+            const unlockedCount = unlockedChapters.length;
+            const isDec24OrLater = isDayUnlocked(24);
+
+            // Zähler & Badges aktualisieren
+            unlockedCounter.textContent = `${unlockedCount} / 24`;
+
+            if (isDec24OrLater) {
+                fullAlbumBanner.classList.remove('hidden');
+                if (btsSection) btsSection.classList.remove('hidden');
+                initBannerSnowflakes();
+                if (!fullscreenSnowPlayedForDec24) {
+                    fullscreenSnowPlayedForDec24 = true;
+                    triggerFullscreenSnow24();
+                }
+                historyBadge.classList.remove('hidden');
+                countdownBadge.textContent = "Alle 24 Türchen geöffnet!";
+                playLatestLabel.textContent = "Finale (Tag 24) hören";
+            } else {
+                fullscreenSnowPlayedForDec24 = false;
+                fullAlbumBanner.classList.add('hidden');
+                if (btsSection) btsSection.classList.add('hidden');
+                historyBadge.classList.add('hidden');
+                if (unlockedCount === 0) {
+                    countdownBadge.textContent = "Startet am 01. Dez um 0:00 Uhr";
+                    playLatestLabel.textContent = "Startet am 1. Dezember";
+                } else {
+                    const nextDay = unlockedCount + 1;
+                    countdownBadge.textContent = `Türchen ${nextDay} um 0:00 Uhr`;
+                    playLatestLabel.textContent = `Türchen ${unlockedCount} hören`;
+                }
+            }
+
+            // Tracklist aufbauen
+            tracksContainer.innerHTML = '';
+
+            const chaptersToRender = filterMode === 'unlocked' 
+                ? unlockedChapters 
+                : AUDIO_CHAPTERS;
+
+            if (chaptersToRender.length === 0) {
+                tracksContainer.innerHTML = `
+                    <div class="p-10 text-center text-slate-500">
+                        <i class="ph-duotone ph-magnifying-glass text-4xl text-[#09182c] mb-2"></i>
+                        <p class="font-semibold text-slate-800">Die Ermittlungen beginnen am 1. Dezember</p>
+                        <p class="text-xs mt-1">Schau ab dem 01.12. um 0:00 Uhr vorbei – oder nutze oben rechts das Vorschau-Datum zum Testen!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Besondere Tage (Nikolaus, Adventssonntage 2026: 6., 13., 20. Dez, Heiligabend 24. Dez)
+            const specialDays = {
+                6: "Nikolaus & 2. Advent",
+                13: "3. Advent",
+                20: "4. Advent",
+                24: "Heiligabend • Finale"
+            };
+
+            chaptersToRender.forEach((chapter) => {
+                const index = chapter.day - 1;
+                const unlocked = isDayUnlocked(chapter.day);
+                const isCurrent = currentTrackIndex === index;
+                const isThisPlaying = isCurrent && isPlaying;
+                const specialLabel = specialDays[chapter.day] || null;
+
+                const row = document.createElement('div');
+                row.className = `chapter-row group grid grid-cols-12 items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3.5 transition-colors ${
+                    unlocked 
+                        ? (isCurrent ? '' : 'hover:bg-[#f8f7f4] cursor-pointer') 
+                        : 'bg-slate-50/50 opacity-65 cursor-not-allowed'
+                }`;
+                row.dataset.day = String(chapter.day);
+                row.dataset.unlocked = unlocked ? 'true' : 'false';
+                if (isCurrent) {
+                    applyRowPastelHighlight(row);
+                }
+
+                // Nummer / Equalizer / Schloss
+                let indexContent = '';
+                if (!unlocked) {
+                    indexContent = `<i class="ph-fill ph-lock-simple text-slate-400 text-base"></i>`;
+                } else if (isThisPlaying) {
+                    indexContent = `
+                        <div class="flex items-end justify-center gap-0.5 h-4">
+                            <span class="w-1 bg-red-600 rounded-full eq-1"></span>
+                            <span class="w-1 bg-sky-600 rounded-full eq-2"></span>
+                            <span class="w-1 bg-amber-500 rounded-full eq-3"></span>
+                        </div>
+                    `;
+                } else {
+                    indexContent = `
+                        <span class="font-bold text-sm ${isCurrent ? 'text-sky-800' : (specialLabel ? 'text-amber-800' : 'text-slate-600')} group-hover:hidden">${String(chapter.day).padStart(2, '0')}</span>
+                        <i class="ph-fill ph-play text-[#09182c] text-base hidden group-hover:inline"></i>
+                    `;
+                }
+
+                // Kleines festliches Tag für besondere Tage
+                const specialBadgeHtml = specialLabel
+                    ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100/90 text-amber-900 border border-amber-200/70">
+                            <i class="ph-fill ph-star text-amber-600 text-[9px]"></i> ${specialLabel}
+                       </span>`
+                    : '';
+
+                // Persönliche Sprechblase unter dem 24. Türchen (erscheint sobald Tag 24 frei ist)
+                const speechBubble24Html = (chapter.day === 24 && unlocked)
+                    ? `<div class="col-span-12 mt-2 sm:pl-12 speech-bubble-ignore">
+                            <div class="relative inline-block max-w-2xl bg-gradient-to-br from-[#062417] to-[#0b3824] text-slate-100 text-xs sm:text-sm rounded-2xl rounded-tl-sm px-4 py-3.5 shadow-md border border-amber-400/50">
+                                <div class="absolute -top-2 left-3 w-3.5 h-3.5 bg-[#062417] border-l border-t border-amber-400/50 rotate-45"></div>
+                                <div class="relative z-10 flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-amber-400/15 border border-amber-300/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <i class="ph-fill ph-chat-circle-text text-amber-300 text-base"></i>
+                                    </div>
+                                    <div class="leading-relaxed">
+                                        <p class="text-slate-100">
+                                            Das komplette Album ist bereits auf deinem Handy.
+                                        </p>
+                                        <p class="text-slate-200 mt-1.5">
+                                            Übrigens - die Geschichte dient als Romanvorlage für den neuen ???Kinofilm für August 2027.
+                                        </p>
+                                        <p class="font-bold text-amber-300 mt-1.5">
+                                            Viel Spaß :)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>`
+                    : '';
+
+                row.innerHTML = `
+                    <div class="col-span-2 sm:col-span-1 flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-lg ${
+                            unlocked 
+                                ? (isCurrent ? 'bg-sky-100 border border-sky-200' : (specialLabel ? 'bg-amber-100/80 border border-amber-200/70 group-hover:bg-sky-100' : 'bg-slate-100 group-hover:bg-sky-100/80')) 
+                                : 'bg-slate-100'
+                        } flex items-center justify-center transition">
+                            ${indexContent}
+                        </div>
+                    </div>
+
+                    <div class="col-span-10 sm:col-span-7 min-w-0">
+                        <div class="chapter-title-viewport overflow-hidden flex items-center gap-2">
+                            <span class="chapter-title-text font-semibold text-sm sm:text-base truncate block ${unlocked ? (isCurrent ? 'text-[#09182c]' : 'text-slate-900') : 'text-slate-500'}">
+                                ${unlocked ? chapter.title : `Türchen ${chapter.day} – Noch unter Verschluss`}
+                            </span>
+                        </div>
+                        <div class="text-xs text-slate-400 flex flex-wrap items-center gap-2 mt-0.5">
+                            <span>${String(chapter.day).padStart(2, '0')}. Dezember 2026</span>
+                            ${specialBadgeHtml}
+                            <span class="sm:hidden">• ${chapter.duration}</span>
+                        </div>
+                    </div>
+
+                    <div class="hidden sm:block sm:col-span-3 text-xs font-medium ${unlocked ? 'text-emerald-800' : 'text-slate-400'}">
+                        ${unlocked ? '<span class="inline-flex items-center gap-1"><i class="ph-fill ph-check-circle text-emerald-700"></i> Freigeschaltet</span>' : `Ab ${String(chapter.day).padStart(2, '0')}.12., 0:00`}
+                    </div>
+
+                    <div class="hidden sm:block sm:col-span-1 text-right text-xs font-medium text-slate-500 tabular-nums">
+                        ${chapter.duration}
+                    </div>
+
+                    ${speechBubble24Html}
+                `;
+
+                // Hover-Marquee für abgeschnittene Titel & Gedrückthalten-Pop-up (Touch + Linksklick)
+                const titleViewport = row.querySelector('.chapter-title-viewport');
+                const titleTextEl = row.querySelector('.chapter-title-text');
+                const displayTitle = unlocked ? chapter.title : `Türchen ${chapter.day} – Noch unter Verschluss`;
+
+                const startTitleMarquee = () => {
+                    if (!titleViewport || !titleTextEl) return;
+                    const overflowPx = titleTextEl.scrollWidth - titleViewport.clientWidth;
+                    if (overflowPx > 2) {
+                        titleTextEl.classList.remove('truncate', 'block');
+                        titleTextEl.style.setProperty('--marquee-offset', `-${overflowPx + 12}px`);
+                        const durationSec = Math.max(2.6, Math.min(7, overflowPx / 42));
+                        titleTextEl.style.setProperty('--marquee-duration', `${durationSec.toFixed(2)}s`);
+                        titleTextEl.classList.add('chapter-title-marquee');
+                    }
+                };
+
+                const stopTitleMarquee = () => {
+                    if (!titleTextEl) return;
+                    titleTextEl.classList.remove('chapter-title-marquee');
+                    titleTextEl.style.removeProperty('--marquee-offset');
+                    titleTextEl.style.removeProperty('--marquee-duration');
+                    titleTextEl.classList.add('truncate', 'block');
+                };
+
+                row._startTitleMarquee = startTitleMarquee;
+                row._stopTitleMarquee = stopTitleMarquee;
+
+                row.addEventListener('mouseenter', startTitleMarquee);
+                row.addEventListener('mouseleave', stopTitleMarquee);
+
+                let holdTimer = null;
+                let wasHoldPopupOpened = false;
+                let touchMoved = false;
+
+                const startHold = (e) => {
+                    if (e.target.closest('.speech-bubble-ignore')) return;
+                    if (e.type === 'mousedown' && e.button !== 0) return;
+
+                    touchMoved = false;
+                    wasHoldPopupOpened = false;
+                    clearTimeout(holdTimer);
+                    holdTimer = setTimeout(() => {
+                        if (!touchMoved) {
+                            wasHoldPopupOpened = true;
+                            showTitleHoldPopup(displayTitle);
+                        }
+                    }, 420);
+                };
+
+                const endHold = () => {
+                    clearTimeout(holdTimer);
+                    if (wasHoldPopupOpened) {
+                        hideTitleHoldPopup();
+                    }
+                };
+
+                row.addEventListener('mousedown', startHold);
+                row.addEventListener('mouseup', endHold);
+                row.addEventListener('mouseleave', endHold);
+                row.addEventListener('touchstart', startHold, { passive: true });
+                row.addEventListener('touchend', endHold);
+                row.addEventListener('touchcancel', endHold);
+                row.addEventListener('touchmove', () => {
+                    touchMoved = true;
+                    clearTimeout(holdTimer);
+                }, { passive: true });
+
+                row.addEventListener('click', (e) => {
+                    if (e.target.closest('.speech-bubble-ignore')) return;
+                    if (wasHoldPopupOpened) {
+                        wasHoldPopupOpened = false;
+                        return;
+                    }
+                    if (!unlocked) {
+                        showToast(`Türchen ${chapter.day} öffnet sich erst am ${chapter.day}. Dezember um 0:00 Uhr!`, true);
+                        return;
+                    }
+                    playChapter(index);
+                });
+
+                tracksContainer.appendChild(row);
+            });
+
+            updateMobileActiveScrollRow();
+        }
+
+        // Mobil-Version: Beim Scrollen wird das Türchen im Fokus pastellfarbig hinterlegt
+        let activeMobileScrollRow = null;
+        let mobileScrollTicking = false;
+
+        function getDayPastelGradientColors(day) {
+            const t = Math.max(0, Math.min(1, (day - 1) / 23));
+            const bgR = Math.round(254 + (198 - 254) * t);
+            const bgG = Math.round(243 + (226 - 243) * t);
+            const bgB = Math.round(199 + (211 - 199) * t);
+
+            const borderR = Math.round(252 + (110 - 252) * t);
+            const borderG = Math.round(211 + (168 - 211) * t);
+            const borderB = Math.round(77 + (138 - 77) * t);
+
+            return {
+                backgroundColor: `rgba(${bgR}, ${bgG}, ${bgB}, 0.88)`,
+                boxShadow: `inset 0 0 0 1px rgba(${borderR}, ${borderG}, ${borderB}, 0.85)`
+            };
+        }
+
+        function applyRowPastelHighlight(row) {
+            if (!row) return;
+            const day = parseInt(row.dataset.day || '1', 10);
+            const colors = getDayPastelGradientColors(day);
+            row.style.backgroundColor = colors.backgroundColor;
+            row.style.boxShadow = colors.boxShadow;
+        }
+
+        function clearRowPastelHighlight(row) {
+            if (!row) return;
+            const day = parseInt(row.dataset.day || '1', 10);
+            if (currentTrackIndex === day - 1) {
+                applyRowPastelHighlight(row);
+                return;
+            }
+            row.style.removeProperty('background-color');
+            row.style.removeProperty('box-shadow');
+        }
+
+        function updateMobileActiveScrollRow() {
+            const isMobileViewport = window.innerWidth < 640;
+
+            if (!isMobileViewport) {
+                if (activeMobileScrollRow) {
+                    clearRowPastelHighlight(activeMobileScrollRow);
+                    if (activeMobileScrollRow._stopTitleMarquee) activeMobileScrollRow._stopTitleMarquee();
+                    activeMobileScrollRow = null;
+                }
+                return;
+            }
+
+            const rows = Array.from(document.querySelectorAll('.chapter-row'));
+            if (rows.length === 0) return;
+
+            const focusY = Math.min(window.innerHeight * 0.42, 300);
+            let bestRow = null;
+            let bestDistance = Infinity;
+
+            rows.forEach((r) => {
+                const rect = r.getBoundingClientRect();
+                if (rect.bottom < 64 || rect.top > window.innerHeight - 96) return;
+                const rowCenterY = rect.top + rect.height / 2;
+                const dist = Math.abs(rowCenterY - focusY);
+                if (dist < bestDistance) {
+                    bestDistance = dist;
+                    bestRow = r;
+                }
+            });
+
+            if (bestRow === activeMobileScrollRow) return;
+
+            if (activeMobileScrollRow) {
+                clearRowPastelHighlight(activeMobileScrollRow);
+                if (activeMobileScrollRow._stopTitleMarquee) activeMobileScrollRow._stopTitleMarquee();
+            }
+
+            activeMobileScrollRow = bestRow;
+
+            if (activeMobileScrollRow) {
+                applyRowPastelHighlight(activeMobileScrollRow);
+                if (activeMobileScrollRow._startTitleMarquee) activeMobileScrollRow._startTitleMarquee();
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!mobileScrollTicking) {
+                window.requestAnimationFrame(() => {
+                    updateMobileActiveScrollRow();
+                    mobileScrollTicking = false;
+                });
+                mobileScrollTicking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', updateMobileActiveScrollRow);
+
+        // Demo-Audio stoppen
+        function stopDemoAudio() {
+            if (demoTimer) {
+                clearInterval(demoTimer);
+                demoTimer = null;
+            }
+            if (demoSynth) {
+                try { demoSynth.releaseAll(); } catch (e) {}
+            }
+        }
+
+        // Demo-Melodie starten (falls noch kein echter Audio-Link hinterlegt ist)
+        async function startDemoAudio(chapter) {
+            stopDemoAudio();
+            try {
+                await Tone.start();
+                if (!demoSynth) {
+                    demoSynth = new Tone.PolySynth(Tone.Synth, {
+                        oscillator: { type: "sine" },
+                        envelope: { attack: 0.2, decay: 0.4, sustain: 0.3, release: 1.2 }
+                    }).toDestination();
+                    demoSynth.volume.value = -12;
+                }
+            } catch (e) {}
+
+            // Dauer aus String (z.B. "03:45") in Sekunden umrechnen
+            const parts = chapter.duration.split(':');
+            const totalSec = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+            totalDurationEl.textContent = chapter.duration;
+
+            // Kleine weihnachtliche Akkordfolge beim Start anspielen
+            if (demoSynth) {
+                const notes = [["C4", "E4", "G4"], ["F4", "A4", "C5"], ["G4", "B4", "D5"], ["C4", "E4", "G4"]];
+                notes.forEach((chord, i) => {
+                    demoSynth.triggerAttackRelease(chord, "2n", Tone.now() + i * 0.7);
+                });
+            }
+
+            demoTimer = setInterval(() => {
+                if (!isPlaying) return;
+                demoSecondsElapsed++;
+                if (demoSecondsElapsed >= totalSec) {
+                    demoSecondsElapsed = 0;
+                    playNextChapter();
+                    return;
+                }
+                currentTimeEl.textContent = formatTime(demoSecondsElapsed);
+                progressSlider.value = (demoSecondsElapsed / totalSec) * 100;
+            }, 1000);
+        }
+
+        // Kapitel abspielen (optimiert für sofortige Geste auf iOS & Android)
+        function playChapter(index) {
+            const chapter = AUDIO_CHAPTERS[index];
+            if (!chapter || !isDayUnlocked(chapter.day)) return;
+
+            if (currentTrackIndex === index) {
+                togglePlayPause();
+                return;
+            }
+
+            currentTrackIndex = index;
+            isPlaying = true;
+            demoSecondsElapsed = 0;
+
+            // Player-UI aktualisieren
+            playerCover.textContent = String(chapter.day).padStart(2, '0');
+            playerTitle.textContent = chapter.title;
+            playerSubtitle.textContent = chapter.audioUrl ? 'Verbinde & lade Audio...' : 'Die drei ??? • Vorschau-Modus';
+            playPauseIcon.className = "ph-fill ph-pause text-lg text-amber-300";
+
+            // Echte Audio-URL (.m4a / .mp3) oder Demo-Fallback
+            stopDemoAudio();
+
+            if (chapter.audioUrl && chapter.audioUrl.trim() !== "") {
+                audioRetryStage = 0;
+                const candidates = buildSafariStreamCandidates(chapter.audioUrl);
+                htmlAudio.pause();
+                htmlAudio.src = candidates[0];
+                try {
+                    htmlAudio.volume = parseFloat(volumeSlider.value);
+                } catch (e) {}
+
+                // Synchroner Start im Touch-/Klick-Moment entsperrt den Player auf iOS Safari
+                htmlAudio.load();
+                const playPromise = htmlAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            playerSubtitle.textContent = 'Die drei ??? • Selbst gelesen';
+                        })
+                        .catch((err) => {
+                            console.warn("Audio Play Hinweis:", err);
+                            if (err && err.name === 'NotAllowedError') {
+                                isPlaying = false;
+                                playPauseIcon.className = "ph-fill ph-play text-lg ml-0.5 text-amber-300";
+                                playerSubtitle.textContent = 'Bereit – tippe unten auf Play ▶';
+                                renderCalendar();
+                                showToast("Tippe unten im Player auf Play ▶ zum Starten.", true);
+                            }
+                        });
+                }
+            } else {
+                htmlAudio.pause();
+                startDemoAudio(chapter);
+            }
+
+            renderCalendar();
+        }
+
+        // Play / Pause umschalten
+        function togglePlayPause() {
+            if (currentTrackIndex === null) {
+                const unlocked = AUDIO_CHAPTERS.filter(ch => isDayUnlocked(ch.day));
+                if (unlocked.length > 0) {
+                    playChapter(unlocked[unlocked.length - 1].day - 1);
+                } else {
+                    showToast("Das erste Türchen öffnet sich am 1. Dezember um 0:00 Uhr!", true);
+                }
+                return;
+            }
+
+            const chapter = AUDIO_CHAPTERS[currentTrackIndex];
+            isPlaying = !isPlaying;
+
+            if (isPlaying) {
+                playPauseIcon.className = "ph-fill ph-pause text-lg text-amber-300";
+                if (chapter.audioUrl && chapter.audioUrl.trim() !== "") {
+                    if (!htmlAudio.src || htmlAudio.src === "") {
+                        audioRetryStage = 0;
+                        const candidates = buildSafariStreamCandidates(chapter.audioUrl);
+                        htmlAudio.src = candidates[0];
+                    }
+                    playerSubtitle.textContent = 'Lädt Audio...';
+                    const playPromise = htmlAudio.play();
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                playerSubtitle.textContent = 'Die drei ??? • Selbst gelesen';
+                            })
+                            .catch((err) => {
+                                if (err && err.name === 'NotAllowedError') {
+                                    isPlaying = false;
+                                    playPauseIcon.className = "ph-fill ph-play text-lg ml-0.5 text-amber-300";
+                                    playerSubtitle.textContent = 'Tippe erneut auf Play ▶';
+                                    renderCalendar();
+                                }
+                            });
+                    }
+                } else {
+                    startDemoAudio(chapter);
+                }
+            } else {
+                playPauseIcon.className = "ph-fill ph-play text-lg ml-0.5 text-amber-300";
+                if (chapter.audioUrl && chapter.audioUrl.trim() !== "") {
+                    htmlAudio.pause();
+                } else {
+                    stopDemoAudio();
+                }
+            }
+            renderCalendar();
+        }
+
+        // Vorheriges / Nächstes Kapitel
+        function playPrevChapter() {
+            if (currentTrackIndex === null || currentTrackIndex <= 0) return;
+            playChapter(currentTrackIndex - 1);
+        }
+
+        function playNextChapter() {
+            if (currentTrackIndex === null) return;
+            const nextIdx = currentTrackIndex + 1;
+            if (nextIdx < AUDIO_CHAPTERS.length && isDayUnlocked(AUDIO_CHAPTERS[nextIdx].day)) {
+                playChapter(nextIdx);
+            } else {
+                isPlaying = false;
+                playPauseIcon.className = "ph-fill ph-play text-lg ml-0.5 text-amber-300";
+                stopDemoAudio();
+                renderCalendar();
+            }
+        }
+
+        // Event Listeners für Steuerung
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', playPrevChapter);
+        nextBtn.addEventListener('click', playNextChapter);
+
+        playLatestBtn.addEventListener('click', () => {
+            const unlocked = AUDIO_CHAPTERS.filter(ch => isDayUnlocked(ch.day));
+            if (unlocked.length === 0) {
+                showToast("Noch gedulden: Das erste Türchen öffnet sich am 1. Dezember!", true);
+                return;
+            }
+            const latest = unlocked[unlocked.length - 1];
+            playChapter(latest.day - 1);
+        });
+
+        // HTML5 Audio Events (für echte .m4a / .mp3 Dateien)
+        htmlAudio.addEventListener('loadedmetadata', () => {
+            if (!htmlAudio.duration || isNaN(htmlAudio.duration)) return;
+            totalDurationEl.textContent = formatTime(htmlAudio.duration);
+            if (currentTrackIndex !== null && AUDIO_CHAPTERS[currentTrackIndex]) {
+                AUDIO_CHAPTERS[currentTrackIndex].duration = formatTime(htmlAudio.duration, true);
+            }
+        });
+
+        htmlAudio.addEventListener('playing', () => {
+            if (currentTrackIndex !== null) {
+                playerSubtitle.textContent = 'Die drei ??? • Selbst gelesen';
+            }
+        });
+
+        htmlAudio.addEventListener('error', async () => {
+            if (currentTrackIndex === null) return;
+            const chapter = AUDIO_CHAPTERS[currentTrackIndex];
+            const candidates = buildSafariStreamCandidates(chapter.audioUrl);
+
+            // Stufe 1 -> 2: Nächste direkte Stream-Quelle testen
+            if (audioRetryStage + 1 < candidates.length) {
+                audioRetryStage++;
+                playerSubtitle.textContent = `Wechsle Stream-Server (${audioRetryStage + 1}/${candidates.length})...`;
+                htmlAudio.src = candidates[audioRetryStage];
+                htmlAudio.load();
+                if (isPlaying) {
+                    htmlAudio.play().catch(() => {});
+                }
+                return;
+            }
+
+            // Stufe 3: Als typisierter audio/mp4-Blob laden (umgeht Safari octet-stream & Range-Sperre!)
+            if (audioRetryStage === candidates.length - 1) {
+                audioRetryStage++;
+                playerSubtitle.textContent = 'Bereite Audio für iPhone/Safari auf...';
+                const success = await loadAudioAsBlobAndPlay(candidates, chapter.audioUrl);
+                if (success) return;
+            }
+
+            isPlaying = false;
+            playPauseIcon.className = "ph-fill ph-play text-lg ml-0.5 text-amber-300";
+            playerSubtitle.textContent = 'Stream konnte nicht geladen werden';
+            renderCalendar();
+            showToast("Audio konnte nicht geladen werden – prüfe den Link oder öffne die Seite über GitHub Pages.", true);
+        });
+
+        htmlAudio.addEventListener('timeupdate', () => {
+            if (!htmlAudio.duration || isNaN(htmlAudio.duration)) return;
+            currentTimeEl.textContent = formatTime(htmlAudio.currentTime);
+            totalDurationEl.textContent = formatTime(htmlAudio.duration);
+            progressSlider.value = (htmlAudio.currentTime / htmlAudio.duration) * 100;
+        });
+
+        htmlAudio.addEventListener('ended', playNextChapter);
+
+        // Fortschrittsbalken Scrubbing
+        progressSlider.addEventListener('input', () => {
+            if (currentTrackIndex === null) return;
+            const chapter = AUDIO_CHAPTERS[currentTrackIndex];
+            if (chapter.audioUrl && htmlAudio.duration) {
+                htmlAudio.currentTime = (progressSlider.value / 100) * htmlAudio.duration;
+            } else {
+                const parts = chapter.duration.split(':');
+                const totalSec = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+                demoSecondsElapsed = Math.floor((progressSlider.value / 100) * totalSec);
+                currentTimeEl.textContent = formatTime(demoSecondsElapsed);
+            }
+        });
+
+        // Lautstärke
+        volumeSlider.addEventListener('input', () => {
+            const val = parseFloat(volumeSlider.value);
+            htmlAudio.volume = val;
+            if (demoSynth) {
+                demoSynth.volume.value = val === 0 ? -Infinity : (val * 24 - 24);
+            }
+        });
+
+        // Filter-Buttons
+        filterAllBtn.addEventListener('click', () => {
+            filterMode = 'all';
+            filterAllBtn.className = "px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#09182c] text-white transition cursor-pointer";
+            filterUnlockedBtn.className = "px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition cursor-pointer";
+            renderCalendar();
+        });
+
+        filterUnlockedBtn.addEventListener('click', () => {
+            filterMode = 'unlocked';
+            filterUnlockedBtn.className = "px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#09182c] text-white transition cursor-pointer";
+            filterAllBtn.className = "px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition cursor-pointer";
+            renderCalendar();
+        });
+
+        // Simulations-Datum wechseln
+        simDateSelect.addEventListener('change', (e) => {
+            simulatedDate = e.target.value === 'live' ? null : e.target.value;
+            if (currentTrackIndex !== null && !isDayUnlocked(AUDIO_CHAPTERS[currentTrackIndex].day)) {
+                isPlaying = false;
+                currentTrackIndex = null;
+                stopDemoAudio();
+                htmlAudio.pause();
+                playerTitle.textContent = "Wähle ein freies Türchen";
+                playerSubtitle.textContent = "Die drei ??? – Nacht in Angst";
+                playPauseIcon.className = "ph-fill ph-play text-lg ml-0.5 text-amber-300";
+            }
+            renderCalendar();
+        });
+
+        // Startet die 5-Sekunden-Animation für Advent (1–4 Kerzen) und/oder Nikolaus (6. Dez)
+        function hideFestiveOverlay() {
+            const overlay = document.getElementById('festive-event-overlay');
+            if (!overlay || overlay.classList.contains('hidden')) return;
+            clearTimeout(festiveEventTimeout);
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.innerHTML = '';
+            }, 400);
+        }
+
+        function checkAndTriggerFestiveAnimations(refDate) {
+            const y = refDate.getFullYear();
+            const m = refDate.getMonth();
+            const d = refDate.getDate();
+            const dateKey = `${y}-${m}-${d}`;
+
+            if (lastTriggeredSpecialDateKey === dateKey) return;
+            lastTriggeredSpecialDateKey = dateKey;
+
+            const overlay = document.getElementById('festive-event-overlay');
+            if (!overlay) return;
+
+            clearTimeout(festiveEventTimeout);
+            overlay.innerHTML = '';
+            overlay.classList.add('hidden', 'opacity-0');
+            overlay.classList.remove('opacity-100');
+
+            const firstAdvent = getFirstAdventDate(y);
+            const currentMidnight = new Date(y, m, d);
+            const diffDays = Math.round((currentMidnight - firstAdvent) / (1000 * 60 * 60 * 24));
+
+            let adventCount = 0;
+            if (diffDays === 0) adventCount = 1;
+            else if (diffDays === 7) adventCount = 2;
+            else if (diffDays === 14) adventCount = 3;
+            else if (diffDays === 21) adventCount = 4;
+
+            const isNikolaus = (m === 11 && d === 6);
+
+            if (adventCount === 0 && !isNikolaus) return;
+
+            let htmlParts = [];
+
+            if (adventCount > 0) {
+                let candlesHtml = '';
+                for (let i = 0; i < adventCount; i++) {
+                    candlesHtml += createRedCandleSvg(i);
+                }
+                const adventLabel = `${adventCount}. Advent`;
+                htmlParts.push(`
+                    <div class="fixed inset-0 flex items-center justify-center bg-slate-950/25 backdrop-blur-[1px]">
+                        <div class="festive-animation-target bg-[#09182c]/90 border border-amber-400/40 rounded-3xl px-7 py-6 shadow-2xl flex flex-col items-center cursor-default">
+                            <div class="flex items-end justify-center gap-4 sm:gap-7">
+                                ${candlesHtml}
+                            </div>
+                            <span class="mt-3 text-xs font-extrabold uppercase tracking-widest text-amber-300">
+                                Schönen ${adventLabel}
+                            </span>
+                        </div>
+                    </div>
+                `);
+            }
+
+            if (isNikolaus) {
+                htmlParts.push(createNikolausRunnerHtml());
+            }
+
+            overlay.innerHTML = htmlParts.join('');
+            overlay.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+            });
+
+            festiveEventTimeout = setTimeout(hideFestiveOverlay, 5000);
+        }
+
+        const festiveOverlayEl = document.getElementById('festive-event-overlay');
+        if (festiveOverlayEl) {
+            festiveOverlayEl.addEventListener('click', (e) => {
+                if (e.target.closest('.festive-animation-target')) return;
+                hideFestiveOverlay();
+            });
+        }
+
+        // Behind the Scenes Hochkant-Video-Modal Steuerung
+        const openBtsBtn = document.getElementById('open-bts-btn');
+        const closeBtsBtn = document.getElementById('close-bts-btn');
+        const btsModal = document.getElementById('bts-modal');
+        const btsModalCard = document.getElementById('bts-modal-card');
+        const btsVideo = document.getElementById('bts-video');
+        const btsPlaceholder = document.getElementById('bts-placeholder');
+
+        function openBtsModal() {
+            if (!btsModal) return;
+            if (isPlaying) {
+                togglePlayPause();
+            }
+
+            if (BEHIND_THE_SCENES_VIDEO_URL && BEHIND_THE_SCENES_VIDEO_URL.trim() !== "") {
+                btsVideo.src = BEHIND_THE_SCENES_VIDEO_URL;
+                btsVideo.classList.remove('hidden');
+                btsPlaceholder.classList.add('hidden');
+                btsVideo.play().catch(() => {});
+            } else {
+                btsVideo.classList.add('hidden');
+                btsPlaceholder.classList.remove('hidden');
+            }
+
+            btsModal.classList.remove('hidden');
+            btsModal.classList.add('flex', 'bts-modal-backdrop');
+            if (btsModalCard) btsModalCard.classList.add('bts-modal-card');
+        }
+
+        function closeBtsModal() {
+            if (!btsModal) return;
+            if (btsVideo) {
+                btsVideo.pause();
+            }
+            btsModal.classList.add('hidden');
+            btsModal.classList.remove('flex', 'bts-modal-backdrop');
+            if (btsModalCard) btsModalCard.classList.remove('bts-modal-card');
+        }
+
+        if (openBtsBtn) openBtsBtn.addEventListener('click', openBtsModal);
+        if (closeBtsBtn) closeBtsBtn.addEventListener('click', closeBtsModal);
+        if (btsModal) {
+            btsModal.addEventListener('click', (e) => {
+                if (e.target === btsModal) closeBtsModal();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && btsModal && !btsModal.classList.contains('hidden')) {
+                closeBtsModal();
+            }
+        });
+
+        // Automatische Prüfung jede Minute (falls ein Besucher genau um 0:00 Uhr auf der Seite ist)
+        setInterval(() => {
+            if (!simulatedDate) {
+                renderCalendar();
+            }
+        }, 60000);
+
+        // Initialisierung beim Laden
+        window.onload = function() {
+            initSnowflakes();
+            preloadRealDurations();
+            renderCalendar();
+        };
+    </script>
+</body>
+</html>
